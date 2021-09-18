@@ -6,6 +6,10 @@ export async function getWPMedia (mediaSlug: string): Promise<{ status: number; 
   return { status: mediaResponse.status, data: mediaData?.[0] }
 }
 
+export type WP_REST_API_Menu_Item = WP_REST_API_Post & {
+  child_items?: WP_REST_API_Post[];
+}
+
 export type WP_REST_API_Menu = {
   term_id: number;
   name: string;
@@ -17,7 +21,7 @@ export type WP_REST_API_Menu = {
   parent: number;
   count: number;
   filter: string;
-  items: WP_REST_API_Post[];
+  items: WP_REST_API_Menu_Item[];
 }
 export async function getWPMenu (menuSlug: string): Promise<{ status: number; data: WP_REST_API_Menu; }> {
   const menuResponse = await fetch(`${process.env.WP_API_URL}/menus/v1/menus/${menuSlug}`)

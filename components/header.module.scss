@@ -32,6 +32,66 @@
   align-items: center;
 }
 
+.subMenu {
+  @extend .navMenu;
+  display: none;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  position: absolute;
+  border-top: 4px solid var(--theme-primary);
+  width: max-content;
+  min-width: 120px;
+  z-index: 20;
+
+  li {
+    padding-right: 0.5rem;
+    width: 100%;
+
+    &:not(:last-child) {
+      margin-right: 0;
+    }
+  }
+
+  a {
+    padding: 0.45rem 0 0.45rem 0.45rem;
+  }
+}
+
+.childMenu {
+  @extend .subMenu;
+  background-color: white;
+  top: 100%;
+  left: 0;
+  padding-top: 1rem;
+
+  a {
+    color: var(--theme-primary);
+  }
+}
+
+.grandChildMenu {
+  @extend .subMenu;
+  background-color: var(--theme-primary);
+  border-top: 0;
+  top: 0;
+  left: 100%;
+
+  li {
+    &:hover {
+      background-color: #ccc;
+    }
+  }
+
+  a {
+    color: white;
+
+    &:hover {
+      color: white;
+    }
+  }
+}
+
 .navItem {
   flex: 0 0 auto;
   position: relative;

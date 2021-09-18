@@ -4,7 +4,7 @@ import  Link  from 'next/link'
 import Img from 'next/image'
 import { FaBars, FaTimes } from 'react-icons/fa'
 import useSWR from 'swr'
-import { WP_REST_API_Post } from 'wp-types'
+import { WP_REST_API_Menu_Item } from '../lib/wordpress'
 import { useRouter } from 'next/router'
 
 export default function Header () {
@@ -52,11 +52,33 @@ export default function Header () {
           <div className="col d-none d-xl-block col-xl-9">
             <nav className={styles.nav} aria-label={menu.name}>
               <ul className={styles.navMenu}>
-                {menu?.items?.map((item: WP_REST_API_Post) => (
+                {menu?.items?.map((item: WP_REST_API_Menu_Item) => (
                   <li key={item.id} className={styles.navItem}>
                     <Link href={item.slug === 'home' ? '/' : item.slug}>
                       <a className={getNavLinkClass(item.slug)}>{item.title}</a>
                     </Link>
+                    {item?.child_items && (
+                      <ul className={styles.childMenu}>
+                        {item.child_items.map((childItem: WP_REST_API_Menu_Item) => (
+                          <li key={childItem.id} className={styles.navItem}>
+                            <Link href={childItem.slug}>
+                              <a className={getNavLinkClass(childItem.slug)}>{childItem.title}</a>
+                            </Link>
+                            {childItem?.child_items && (
+                              <ul className={styles.grandChildMenu}>
+                                {childItem.child_items.map((grandChildItem: WP_REST_API_Menu_Item) => (
+                                  <li key={grandChildItem.id} className={styles.navItem}>
+                                    <Link href={grandChildItem.slug}>
+                                      <a className={getNavLinkClass(grandChildItem.slug)}>{grandChildItem.title}</a>
+                                    </Link>
+                                  </li>
+                                ))}
+                              </ul>
+                            )}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -65,44 +87,6 @@ export default function Header () {
         </div>
       </div>
     </header>
-    //               <NavMenu>
-    //                 {menu.items.map(item => (
-
-    //                     {item.wordpress_children && (
-    //                       <ChildMenu>
-    //                         {item.wordpress_children.map(child => (
-    //                           <NavItem key={child.wordpress_id}>
-    //                             <NavLink
-    //                               activeClassName={`active`}
-    //                               to={`/${child.object_slug}/`}
-    //                             >
-    //                               {child.title}
-    //                             </NavLink>
-    //                             {child.wordpress_children && (
-    //                               <GrandChildMenu>
-    //                                 {child.wordpress_children.map(
-    //                                   grandchild => (
-    //                                     <NavItem
-    //                                       key={grandchild.wordpress_id}
-    //                                     >
-    //                                       <NavLink
-    //                                         activeClassName={`active`}
-    //                                         to={`/${grandchild.object_slug}/`}
-    //                                       >
-    //                                         {grandchild.title}
-    //                                       </NavLink>
-    //                                     </NavItem>
-    //                                   )
-    //                                 )}
-    //                               </GrandChildMenu>
-    //                             )}
-    //                           </NavItem>
-    //                         ))}
-    //                       </ChildMenu>
-    //                     )}
-    //                   </NavItem>
-    //                 ))}
-    //               </NavMenu>
 
     //           <Overlay className='d-xl-none' menuIsOpen={menuIsOpen}>
     //             <MenuToggle
@@ -135,64 +119,6 @@ export default function Header () {
     //           </Overlay>
   )
 }
-
-
-// const SubMenu = styled(NavMenu)`
-//   display: none;
-//   flex-flow: column nowrap;
-//   justify-content: flex-start;
-//   align-items: flex-start;
-//   position: absolute;
-//   border-top: ${({ theme }) => `4px solid ${theme.primary}`};
-//   width: max-content;
-//   min-width: 120px;
-//   z-index: 20;
-
-//   li {
-//     padding-right: 0.5rem;
-//     width: 100%;
-
-//     &:not(:last-child) {
-//       margin-right: 0;
-//     }
-//   }
-
-//   a {
-//     padding: 0.45rem 0 0.45rem 0.45rem;
-//   }
-// `
-
-// const ChildMenu = styled(SubMenu)`
-//   background-color: white;
-//   top: 100%;
-//   left: 0;
-//   padding-top: 1rem;
-
-//   a {
-//     color: ${({ theme }) => theme.primary};
-//   }
-// `
-
-// const GrandChildMenu = styled(SubMenu)`
-//   background-color: ${({ theme }) => theme.primary};
-//   border-top: 0;
-//   top: 0;
-//   left: 100%;
-
-//   li {
-//     &:hover {
-//       background-color: #ccc;
-//     }
-//   }
-
-//   a {
-//     color: white;
-
-//     &:hover {
-//       color: white;
-//     }
-//   }
-// `
 
 
 // const MenuToggle = styled.div`
