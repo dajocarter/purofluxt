@@ -1,3 +1,10 @@
+:root {
+  --theme-primary: #09a198;
+  --theme-secondary: #ffa200;
+  --theme-alt: #000000;
+  --theme-body: #7f7f7f;
+}
+
 html,
 body {
   padding: 0;
