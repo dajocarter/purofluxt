@@ -2,6 +2,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
+import { getWPMedia } from '../lib/wordpress'
 
 const Home: NextPage = () => {
   return (
@@ -70,3 +71,14 @@ const Home: NextPage = () => {
 }
 
 export default Home
+
+export async function getStaticProps () {
+  const logo = await getWPMedia('purofluxlogo_white_2x')
+  return {
+    props: {
+      fallback: {
+        '/api/media/purofluxlogo_white_2x': logo
+      }
+    }
+  }
+}
