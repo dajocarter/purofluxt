@@ -15,6 +15,6 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<WPMedia>
 ) {
-  const media = await getWPMedia(req.query.mediaSlug as string)
-  res.status(200).json(media)
+  const { status, data } = await getWPMedia(req.query.mediaSlug as string)
+  res.status(status).json(data)
 }
