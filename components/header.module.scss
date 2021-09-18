@@ -132,3 +132,62 @@
   @extend .navLink;
   color: var(--theme-primary);
 }
+
+.menuToggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  > svg {
+    color: var(--theme-primary);
+    font-size: 2rem;
+    cursor: pointer;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+  }
+}
+
+.activeMenuToggle {
+  @extend .menuToggle;
+  > svg {
+    color: var(--theme-secondary);
+  }
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0px;
+  height: 0px;
+  background-color: rgba(0, 0, 0, 0.9);
+  z-index: 10;
+  transition: all 0.15s ease-in-out;
+
+  // ${Nav} {
+  //   display: ${({ menuIsOpen }) => (menuIsOpen ? `flex` : `none`)};
+  //   justify-content: flex-start;
+  //   padding: 1rem 3rem;
+  //   height: 100%;
+
+  //   ul {
+  //     height: 100%;
+  //     flex-flow: column nowrap;
+  //     align-items: flex-start;
+
+  //     a {
+  //       font-size: 2rem;
+  //       font-style: normal;
+  //       padding: 0;
+  //     }
+  //   }
+  // }
+}
+
+.activeOverlay {
+  @extend .overlay;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+}

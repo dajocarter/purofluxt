@@ -84,17 +84,14 @@ export default function Header () {
               </ul>
             </nav>
           </div>
+          <div className={menuIsOpen ? `${styles.activeOverlay} d-xl-none` : `${styles.overlay} d-xl-none`}>
+            <div className={menuIsOpen ? styles.activeMenuToggle : styles.menuToggle} onClick={() => setMenu(menuIsOpen => !menuIsOpen)}>{menuIsOpen ? <FaTimes /> : <FaBars />}</div>
+            {/* MENU_NAV */}
+          </div>
         </div>
       </div>
     </header>
 
-    //           <Overlay className='d-xl-none' menuIsOpen={menuIsOpen}>
-    //             <MenuToggle
-    //               menuIsOpen={menuIsOpen}
-    //               onClick={() => setMenu(menuIsOpen => !menuIsOpen)}
-    //             >
-    //               {menuIsOpen ? <FaTimes /> : <FaBars />}
-    //             </MenuToggle>
     //             <Nav role={`navigation`} aria-label={menu.name}>
     //               <NavMenu>
     //                 {menu.items.map(item => (
@@ -116,53 +113,5 @@ export default function Header () {
     //                 ))}
     //               </NavMenu>
     //             </Nav>
-    //           </Overlay>
   )
 }
-
-
-// const MenuToggle = styled.div`
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-
-//   > svg {
-//     color: ${({ menuIsOpen, theme }) =>
-//     menuIsOpen ? theme.secondary : theme.primary};
-//     font-size: 2rem;
-//     cursor: pointer;
-//     position: absolute;
-//     top: 1rem;
-//     right: 1rem;
-//   }
-// `
-
-// const Overlay = styled.div`
-//   position: ${({ menuIsOpen }) => (menuIsOpen ? `fixed` : `absolute`)};
-//   top: 0;
-//   right: 0;
-//   width: ${({ menuIsOpen }) => (menuIsOpen ? `100vw` : `0px`)};
-//   height: ${({ menuIsOpen }) => (menuIsOpen ? `100vh` : `0px`)};
-//   background-color: rgba(0, 0, 0, 0.9);
-//   z-index: 10;
-//   transition: all 0.15s ease-in-out;
-
-//   ${Nav} {
-//     display: ${({ menuIsOpen }) => (menuIsOpen ? `flex` : `none`)};
-//     justify-content: flex-start;
-//     padding: 1rem 3rem;
-//     height: 100%;
-
-//     ul {
-//       height: 100%;
-//       flex-flow: column nowrap;
-//       align-items: flex-start;
-
-//       a {
-//         font-size: 2rem;
-//         font-style: normal;
-//         padding: 0;
-//       }
-//     }
-//   }
-// `
