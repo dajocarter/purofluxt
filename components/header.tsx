@@ -50,7 +50,7 @@ export default function Header () {
             </div>
           </div>
           <div className="col d-none d-xl-block col-xl-9">
-            <nav className={styles.nav} aria-label={menu.name}>
+            <nav className={styles.nav} aria-label='Desktop Navigation'>
               <ul className={styles.navMenu}>
                 {menu?.items?.map((item: WP_REST_API_Menu_Item) => (
                   <li key={item.id} className={styles.navItem}>
@@ -86,32 +86,20 @@ export default function Header () {
           </div>
           <div className={menuIsOpen ? `${styles.activeOverlay} d-xl-none` : `${styles.overlay} d-xl-none`}>
             <div className={menuIsOpen ? styles.activeMenuToggle : styles.menuToggle} onClick={() => setMenu(menuIsOpen => !menuIsOpen)}>{menuIsOpen ? <FaTimes /> : <FaBars />}</div>
-            {/* MENU_NAV */}
+            <nav className={styles.nav} aria-label='Mobile Navigation'>
+              <ul className={styles.navMenu}>
+                {menu?.items?.map((item: WP_REST_API_Menu_Item) => (
+                  <li key={item.id} className={styles.navItem}>
+                    <Link href={item.slug === 'home' ? '/' : item.slug}>
+                      <a className={getNavLinkClass(item.slug)}>{item.title}</a>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
           </div>
         </div>
       </div>
     </header>
-
-    //             <Nav role={`navigation`} aria-label={menu.name}>
-    //               <NavMenu>
-    //                 {menu.items.map(item => (
-    //                   <NavItem key={item.wordpress_id}>
-    //                     <NavLink
-    //                       activeClassName={`active`}
-    //                       className={
-    //                         item.object_slug === 'rep-login' ? `alt` : ``
-    //                       }
-    //                       to={
-    //                         item.object_slug === 'home'
-    //                           ? `/`
-    //                           : `/${item.object_slug}/`
-    //                       }
-    //                     >
-    //                       {item.title}
-    //                     </NavLink>
-    //                   </NavItem>
-    //                 ))}
-    //               </NavMenu>
-    //             </Nav>
   )
 }

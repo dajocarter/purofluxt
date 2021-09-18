@@ -165,24 +165,24 @@
   z-index: 10;
   transition: all 0.15s ease-in-out;
 
-  // ${Nav} {
-  //   display: ${({ menuIsOpen }) => (menuIsOpen ? `flex` : `none`)};
-  //   justify-content: flex-start;
-  //   padding: 1rem 3rem;
-  //   height: 100%;
+  .nav {
+    display: none;
+    justify-content: flex-start;
+    padding: 1rem 3rem;
+    height: 100%;
 
-  //   ul {
-  //     height: 100%;
-  //     flex-flow: column nowrap;
-  //     align-items: flex-start;
+    ul {
+      height: 100%;
+      flex-flow: column nowrap;
+      align-items: flex-start;
 
-  //     a {
-  //       font-size: 2rem;
-  //       font-style: normal;
-  //       padding: 0;
-  //     }
-  //   }
-  // }
+      a {
+        font-size: 2rem;
+        font-style: normal;
+        padding: 0;
+      }
+    }
+  }
 }
 
 .activeOverlay {
@@ -190,4 +190,8 @@
   position: fixed;
   width: 100vw;
   height: 100vh;
+
+  .nav {
+    display: flex;
+  }
 }
