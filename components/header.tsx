@@ -4,10 +4,31 @@ import  Link  from 'next/link'
 import Img from 'next/image'
 import { FaBars, FaTimes } from 'react-icons/fa'
 import useSWR from 'swr'
+import { WP_REST_API_Post } from 'wp-types'
+import { useRouter } from 'next/router'
 
 export default function Header () {
-  const [menuIsOpen, setMenu] = useState(false)
+  const router = useRouter()
+  const isActiveLink = (route: string) => {
+    if (route === 'home') return router.pathname === '/'
+    return router.pathname === route
+  }
+  const getNavLinkClass = (route: string) => {
+    if (isActiveLink(route)) {
+      return `${styles.navLink} ${styles.activeNavLink}`
+    } else if (route === 'rep-login') {
+      return `${styles.navLink} ${styles.altNavLink}`
+    } else {
+      return `${styles.navLink}`
+    }
+  }
+  
   const { data: logo } = useSWR('/api/media/purofluxlogo_white_2x')
+  const logoSrc = logo?.media_details?.file && `${process.env.NEXT_PUBLIC_MEDIA_URL}/${logo.media_details.file}`
+  
+  const { data: menu } = useSWR('/api/menu/header-desktop')
+  const [menuIsOpen, setMenu] = useState(false)
+  
   return (
     <header className={styles.header}>
       <div className="container">
@@ -16,48 +37,37 @@ export default function Header () {
             <div className={styles.navBrand}>
               <Link href='/'>
                 <a>
-                  <Img
-                    src={`${process.env.NEXT_PUBLIC_MEDIA_URL}/${logo.media_details.file}`}
-                    alt='Puroflux'
-                    width={200}
-                    height={42}
-                  />
+                  {logoSrc && (
+                    <Img
+                      src={logoSrc}
+                      alt='Puroflux'
+                      width={200}
+                      height={42}
+                    />
+                  )}
                 </a>
               </Link>
             </div>
           </div>
+          <div className="col d-none d-xl-block col-xl-9">
+            <nav className={styles.nav} aria-label={menu.name}>
+              <ul className={styles.navMenu}>
+                {menu?.items?.map((item: WP_REST_API_Post) => (
+                  <li key={item.id} className={styles.navItem}>
+                    <Link href={item.slug === 'home' ? '/' : item.slug}>
+                      <a className={getNavLinkClass(item.slug)}>{item.title}</a>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
         </div>
       </div>
     </header>
-    //       {logo && (
-    //         <Col xs={9} xl={3}>
-    //           <NavBrand>
-    //             <Link to='/' title={siteTitle}>
-    //               <Img fixed={logo.localFile.childImageSharp.fixed} />
-    //             </Link>
-    //           </NavBrand>
-    //         </Col>
-    //       )}
-    //       {menu && (
-    //         <>
-    //           <Col className='d-none d-xl-block' xl={9}>
-    //             <Nav role={`navigation`} aria-label={menu.name}>
     //               <NavMenu>
     //                 {menu.items.map(item => (
-    //                   <NavItem key={item.wordpress_id}>
-    //                     <NavLink
-    //                       activeClassName={`active`}
-    //                       className={
-    //                         item.object_slug === 'rep-login' ? `alt` : ``
-    //                       }
-    //                       to={
-    //                         item.object_slug === 'home'
-    //                           ? `/`
-    //                           : `/${item.object_slug}/`
-    //                       }
-    //                     >
-    //                       {item.title}
-    //                     </NavLink>
+
     //                     {item.wordpress_children && (
     //                       <ChildMenu>
     //                         {item.wordpress_children.map(child => (
@@ -93,8 +103,7 @@ export default function Header () {
     //                   </NavItem>
     //                 ))}
     //               </NavMenu>
-    //             </Nav>
-    //           </Col>
+
     //           <Overlay className='d-xl-none' menuIsOpen={menuIsOpen}>
     //             <MenuToggle
     //               menuIsOpen={menuIsOpen}
@@ -124,31 +133,9 @@ export default function Header () {
     //               </NavMenu>
     //             </Nav>
     //           </Overlay>
-    //         </>
-    //       )}
-    //     </Row>
   )
 }
 
-
-// const Nav = styled.nav`
-//   display: flex;
-//   justify-content: flex-end;
-//   align-items: center;
-//   margin: 0 auto;
-//   max-width: 960px;
-// `
-
-
-// const NavMenu = styled.ul`
-//   padding: 0;
-//   margin: 0;
-//   list-style: none;
-//   display: flex;
-//   flex-flow: row wrap;
-//   justify-content: space-around;
-//   align-items: center;
-// `
 
 // const SubMenu = styled(NavMenu)`
 //   display: none;
@@ -207,41 +194,6 @@ export default function Header () {
 //   }
 // `
 
-// const NavItem = styled.li`
-//   flex: 0 0 auto;
-//   position: relative;
-
-//   &:not(:last-child) {
-//     margin-right: 10px;
-//   }
-
-//   &:hover {
-//     > ul {
-//       display: flex;
-//     }
-//   }
-// `
-
-// const NavLink = styled(Link)`
-//   color: white;
-//   display: block;
-//   font-family: 'Josefin Sans', sans-serif;
-//   font-size: 0.8rem;
-//   font-style: italic;
-//   text-decoration: none;
-//   text-transform: uppercase;
-//   padding: 24.5px 0;
-
-//   &.alt {
-//     color: ${({ theme }) => theme.secondary};
-//   }
-
-//   &:hover,
-//   &:focus,
-//   &.active {
-//     color: ${({ theme }) => theme.primary};
-//   }
-// `
 
 // const MenuToggle = styled.div`
 //   display: flex;

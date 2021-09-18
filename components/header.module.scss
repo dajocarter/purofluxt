@@ -13,3 +13,60 @@
     display: block;
   }
 }
+
+.nav {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin: 0 auto;
+  max-width: 960px;
+}
+
+.navMenu {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.navItem {
+  flex: 0 0 auto;
+  position: relative;
+
+  &:not(:last-child) {
+    margin-right: 10px;
+  }
+
+  &:hover {
+    > ul {
+      display: flex;
+    }
+  }
+}
+
+.navLink {
+  color: white;
+  display: block;
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 0.8rem;
+  font-style: italic;
+  text-decoration: none;
+  text-transform: uppercase;
+  padding: 24.5px 0;
+
+  &:hover,
+  &:focus {
+    color: var(--theme-primary);
+  }
+}
+
+.altNavLink {
+  color: var(--theme-secondary);
+}
+
+.activeNavLink {
+  color: var(--theme-primary);
+}
