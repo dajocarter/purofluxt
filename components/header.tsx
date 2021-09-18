@@ -15,11 +15,11 @@ export default function Header () {
   }
   const getNavLinkClass = (route: string) => {
     if (isActiveLink(route)) {
-      return `${styles.navLink} ${styles.activeNavLink}`
+      return styles.activeNavLink
     } else if (route === 'rep-login') {
-      return `${styles.navLink} ${styles.altNavLink}`
+      return styles.altNavLink
     } else {
-      return `${styles.navLink}`
+      return styles.navLink
     }
   }
   
